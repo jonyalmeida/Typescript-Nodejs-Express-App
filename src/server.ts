@@ -17,15 +17,16 @@ process.on("unhandledRejection", e => {
 });
 
 //create express app
-const app = express();
+const router = express();
 
 //connect middleware and apply routes
-applyMiddleware(middleware, app);
-applyRoutes(routes, app);
+applyMiddleware(middleware, router);
+applyRoutes(routes, router);
+applyMiddleware(errorHandlers, router)
 
 //declare PORT and initialize server
 const { PORT = 3000 } = process.env;
-const server = http.createServer(app);
+const server = http.createServer(router);
 
 server.listen(PORT, () =>
     console.log(`Server is running http://localhost:${PORT}...`)
