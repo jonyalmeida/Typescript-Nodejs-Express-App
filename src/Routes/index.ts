@@ -1,4 +1,4 @@
-import { RoutesInput } from "../types/route";
+import { RoutesInput } from "../src/types/route";
 import UserController from "../Controllers/User.controller"
 
 export default ({ app }: RoutesInput) => {
