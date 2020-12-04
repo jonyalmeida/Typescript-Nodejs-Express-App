@@ -1,16 +1,19 @@
-import { Request, Response } from "express";
-import { getPlacesByName } from "./SearchController";
-import { checkSearchParams } from "../../middleware/checks";
+import { Request, Response, NextFunction } from 'express';
+import { getPlacesByName } from './SearchController';
+import { checkSearchParams } from '../../middleware/checks';
 import { authenticate } from '../../middleware/authenticate';
-import { getFromCache } from "../../middleware/caching";
+import { getFromCache } from '../../middleware/caching';
 
 export default [
     {
-        path: "/api/v1/search",
-        method: "get",
+        path: '/api/v1/search',
+        method: 'get',
         handler: [
             checkSearchParams,
-            getFromCache,
+            (req: Request, res: Response, next: NextFunction) => {
+                const key = 'search-' + req.query.q;
+                getFromCache(key, res, next);
+            },
             async ({ query }: Request, res: Response) => {
                 const result = await getPlacesByName(query.q as string);
                 res.status(200).send(result);
@@ -18,15 +21,18 @@ export default [
         ],
     },
     {
-        path: "/api/v1/search/protected",
-        method: "get",
+        path: '/api/v1/search/protected',
+        method: 'get',
         handler: [
             authenticate,
             checkSearchParams,
-            getFromCache,
+            (req: Request, res: Response, next: NextFunction) => {
+                const key = 'search-' + req.query.q;
+                getFromCache(key, res, next);
+            },
             async ({ query }: Request, res: Response) => {
                 const result = await getPlacesByName(query.q as string);
-                res.status(200).send(result)
+                res.status(200).send(result);
             },
         ],
     },
