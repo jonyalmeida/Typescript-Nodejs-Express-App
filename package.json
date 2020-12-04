@@ -63,6 +63,7 @@
     "got": "^11.1.4",
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
+    "pm2": "^4.5.0",
     "rand-token": "^1.0.1",
     "redis": "^3.0.2",
     "request-promise": "^4.2.6",
