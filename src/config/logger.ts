@@ -1,11 +1,11 @@
-import winston from "winston";
-import Sentry from "winston-transport-sentry-node";
-import dotenv from "dotenv";
+import winston from 'winston';
+import Sentry from 'winston-transport-sentry-node';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 const logger = winston.createLogger({
-    level: "debug",
+    level: 'debug',
     format: winston.format.combine(
         winston.format.colorize(),
         winston.format.json(),
