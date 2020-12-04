@@ -1,13 +1,21 @@
 import {
     handleCors,
     handleBodyRequestParsing,
-    handleCompression
+    handleCompression,
+    handleCookie
 } from "./common";
 
 import { handleAPIDocs } from "./apiDocs"
+import { handleRateLimit, handleHTTPHeaders, handleCSRF } from "./security";
+import { handleLogging } from "./logging";
 
 export default [
     handleCors,
     handleBodyRequestParsing,
     handleCompression,
-    handleAPIDocs];
+    handleCookie,
+    handleAPIDocs,
+    handleRateLimit,
+    handleCSRF,
+    handleLogging
+];  
