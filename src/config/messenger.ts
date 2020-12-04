@@ -1,13 +1,12 @@
-import amqp, { Channel, Message } from "amqplib/callback_api";
-import { logger } from "./logger";
-import dotenv from "dotenv";
-import { resolveModuleName } from "typescript";
+import amqp, { Channel, Message } from 'amqplib/callback_api';
+import { logger } from './logger';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 let channel: Channel;
-let exchange: "places";
-let { CLOUDAMQP_URL = "amqp://localhost:5672" } = process.env;
+let exchange = 'places';
+let { CLOUDAMQP_URL = 'amqp://localhost:5672' } = process.env;
 
 const init = async () =>
     new Promise((resolved, rejected) => {
@@ -23,7 +22,7 @@ const init = async () =>
 
                 channel = _channel;
 
-                channel.assertExchange(exchange, "fanout", {
+                channel.assertExchange(exchange, 'fanout', {
                     durable: false,
                 });
 

@@ -1,29 +1,33 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
     authenticate,
     registerNewUser,
     generateAccessToken,
-} from "./AuthController";
+} from './AuthController';
 
 const options = {
-    path: "/api/v1/refresh",
-    maxAge: 1000 * 60 * 60 * 24 * 90, //would expire after 90 days
-    httponly: true,
+    path: '/api/v1/refresh',
+    maxAge: 1000 * 60 * 60 * 24 * 90, // would expire after 90 days
+    httpOnly: true,
     secure: false,
     signed: false,
 };
 
 export default [
     {
-        path: "/api/v1/signup",
-        method: "post",
+        path: '/api/v1/signup',
+        method: 'post',
         handler: [
             async (req: Request, res: Response) => {
                 const { email, password } = req.body;
-                let { accessToken, refreshToken } = registerNewUser(email, password);
+
+                let { accessToken, refreshToken } = await registerNewUser(
+                    email,
+                    password,
+                );
 
                 res
-                    .cookie("refreshToken", refreshToken, options)
+                    .cookie('refreshToken', refreshToken, options)
                     .status(200)
                     .send({ auth: true, accessToken });
             },
@@ -35,7 +39,7 @@ export default [
         handler: [
             async (req: Request, res: Response) => {
                 const { email, password } = req.body;
-                let { accessToken, refreshToken } = authenticate(email, password);
+                let { accessToken, refreshToken } = await authenticate(email, password);
 
                 res
                     .cookie('refreshToken', refreshToken, options)
@@ -45,8 +49,8 @@ export default [
         ],
     },
     {
-        path: "/api/v1/refresh/token",
-        method: "get",
+        path: '/api/v1/refresh/token',
+        method: 'get',
         handler: [
             async (req: Request, res: Response) => {
                 const { refreshToken } = req.cookies;
@@ -72,7 +76,7 @@ export default [
                 <label for="password">Your password:</label>
                 <input id="password" name="password" type="password" />
               </div>
-
+            
               <input type="hidden" name="_csrf" value="${req.csrfToken()}" />
               <input type="submit" value="Submit" />
           </form>
@@ -80,4 +84,28 @@ export default [
             },
         ],
     },
-]
+    {
+        path: '/login',
+        method: 'get',
+        handler: [
+            (req: Request, res: Response) => {
+                res.status(200).send(`
+          <h1>Login</h1>
+          <form action="/api/v1/signin" method="POST">
+              <div style="margin-bottom: 10px">
+                <label for="email">Your email:</label>
+                <input id="email" name="email" type="text" />
+              </div>
+              <div style="margin-bottom: 10px">
+                <label for="password">Your password:</label>
+                <input id="password" name="password" type="password" />
+              </div>
+            
+              <input type="hidden" name="_csrf" value="${req.csrfToken()}" />
+              <input type="submit" value="Submit" />
+          </form>
+        `);
+            },
+        ],
+    },
+];

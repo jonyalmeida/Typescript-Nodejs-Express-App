@@ -1,13 +1,13 @@
-import { dbClient } from "../../config/db";
-import { subscribe } from "../../config/messenger";
-import format from "pg-format";
+import { dbClient } from '../../config/db';
+import { subscribe } from '../../config/messenger';
+import format from 'pg-format';
 
 subscribe(({ features }: { features: Feature[] }) => {
-    let featuresWithinHighConfidence = features.filter(
+    let featuresWithHighConfidence = features.filter(
         (feature: Feature) => feature.properties.confidence >= 8,
     );
 
-    addPlaces(featuresWithinHighConfidence);
+    addPlaces(featuresWithHighConfidence);
 });
 
 const addPlaces = async (features: Feature[]) => {
@@ -23,7 +23,5 @@ export const getPlaces = async (offset = 0, limit = 20) => {
         'SELECT * FROM "TopPlaces" LIMIT $1 OFFSET $2;',
         [limit, offset],
     );
-
     return res.rows;
 };
-

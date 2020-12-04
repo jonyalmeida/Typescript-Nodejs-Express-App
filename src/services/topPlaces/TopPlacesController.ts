@@ -1,5 +1,5 @@
-import { getPlaces } from "./TopPlacesModel";
-import { redisClient } from "../../config/cache";
+import { getPlaces } from './TopPlacesModel';
+import { redisClient } from '../../config/cache';
 
 export const getTopPlaces = async (offset: number, limit: number) => {
     let result = await getPlaces(offset, limit);

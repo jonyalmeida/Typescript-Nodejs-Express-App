@@ -1,12 +1,12 @@
-import { getPlaces } from "./providers/OpenCageDataProvider";
-import { redisClient } from "../../config/redis";
-import { publish } from "../../config/messenger";
+import { getPlaces } from './providers/OpenCageDataProvider';
+import { redisClient } from '../../config/cache';
+import { publish } from '../../config/messenger';
 
 export const getPlacesByName = async (q: string) => {
     if (q.length < 3) {
         return {
-            type: "FeatureCollection",
-            features: []
+            type: 'FeatureCollection',
+            features: [],
         };
     }
 

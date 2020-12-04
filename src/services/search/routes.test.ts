@@ -12,27 +12,27 @@ const mockedAxios = axios as any;
 mockedAxios.get.mockResolvedValue({ data: { features: [] } });
 
 describe('routes', () => {
-    let router: Router;
+  let router: Router;
 
-    beforeEach(() => {
-        router = express();
-        applyMiddleware(middleware, router);
-        applyRoutes(routes, router);
-        applyMiddleware(errorHandlers, router);
-    });
+  beforeEach(() => {
+    router = express();
+    applyMiddleware(middleware, router);
+    applyRoutes(routes, router);
+    applyMiddleware(errorHandlers, router);
+  });
 
-    test('a valid string query', async () => {
-        const response = await request(router).get('/api/v1/search?q=Cham');
-        expect(response.status).toEqual(200);
-    });
+  test('a valid string query', async () => {
+    const response = await request(router).get('/api/v1/search?q=Cham');
+    expect(response.status).toEqual(200);
+  });
 
-    test('a non-existing api method', async () => {
-        const response = await request(router).get('/api/v11/search');
-        expect(response.status).toEqual(404);
-    });
+  test('a non-existing api method', async () => {
+    const response = await request(router).get('/api/v11/search');
+    expect(response.status).toEqual(404);
+  });
 
-    test('an empty string', async () => {
-        const response = await request(router).get('/api/v1/search?q=');
-        expect(response.status).toEqual(400);
-    });
+  test('an empty string', async () => {
+    const response = await request(router).get('/api/v1/search?q=');
+    expect(response.status).toEqual(400);
+  });
 });

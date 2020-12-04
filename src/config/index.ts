@@ -1,7 +1,11 @@
-import { init as initRedis } from "./redis";
+import { init as initCache } from "./cache";
+import { init as initDb } from "./db";
+import { init as initMessaging } from "./messenger";
 
-const initDependecies = async () => {
-    await initRedis();
+const initDependencies = async () => {
+    await initCache();
+    await initDb();
+    await initMessaging();
 };
 
-export { initDependecies };
+export { initDependencies };
