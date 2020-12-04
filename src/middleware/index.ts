@@ -16,6 +16,7 @@ export default [
     handleCookie,
     handleAPIDocs,
     handleRateLimit,
+    handleHTTPHeaders,
     handleCSRF,
-    handleLogging
+    handleLogging,
 ];  
