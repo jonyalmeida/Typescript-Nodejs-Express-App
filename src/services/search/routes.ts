@@ -9,10 +9,8 @@ export default [
         handler: [
             checkSearchParams,
             async ({ query }: Request, res: Response) => {
-                if (query) {
-                    const result = await getPlacesByName(query.q);
-                    res.status(200).send(result);
-                }
+                const result = await getPlacesByName(query.q);
+                res.status(200).send(result);
             }
         ]
     }
